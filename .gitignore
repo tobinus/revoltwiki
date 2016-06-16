@@ -90,3 +90,6 @@ ENV/
 
 # Idea (from pycharm)
 .idea
+
+# Database
+*.sqlite3
