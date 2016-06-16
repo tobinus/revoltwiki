@@ -20,7 +20,7 @@ class Category(models.Model):
 
 class Content(models.Model):
     content = models.TextField()
-    article = models.ForeignKey('Article')
+    parent_article = models.ForeignKey('Article')
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(User)
 
