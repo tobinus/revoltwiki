@@ -1,8 +1,8 @@
 import graphene
-
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
-from .models import Article, ArticleVersion, Category
+
+from data_models.models import Article, ArticleVersion, Category
 
 
 # Types
@@ -130,7 +130,7 @@ class Query(graphene.ObjectType):
         id=graphene.Int()
     )
 
-    all_categories = graphene.ListField(
+    all_categories = graphene.List(
         CategoryType
     )
 
@@ -139,7 +139,7 @@ class Query(graphene.ObjectType):
         id=graphene.Int()
     )
 
-    all_articles = graphene.ListField(
+    all_articles = graphene.List(
         ArticleType
     )
 
@@ -148,7 +148,7 @@ class Query(graphene.ObjectType):
         id=graphene.Int()
     )
 
-    all_article_version = graphene.ListField(
+    all_article_version = graphene.List(
         ArticleVersionType
     )
 
@@ -157,7 +157,7 @@ class Query(graphene.ObjectType):
         id=graphene.Int()
     )
 
-    all_users = graphene.ListField(
+    all_users = graphene.List(
         UserType
     )
 
@@ -329,3 +329,8 @@ class Mutation(graphene.ObjectType):
     create_user = graphene.Field(CreateUser)
     create_article = graphene.Field(CreateArticle)
     create_article_version = graphene.Field(CreateArticleVersion)
+
+
+schema = graphene.Schema(name='Wiki GraphQL Schema')
+schema.query = Query
+# schema.mutation = Mutation

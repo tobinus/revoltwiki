@@ -1,7 +1,8 @@
 from django.contrib.auth.models import User
 from rest_framework import viewsets
-from .serializers import UserSerializer, ArticleSerializer, ArticleVersionSerializer, CategorySerializer
-from .models import Article, ArticleVersion, Category
+
+from api_rest.serializers import UserSerializer, ArticleSerializer, ArticleVersionSerializer, CategorySerializer
+from data_models.models import Article, ArticleVersion, Category
 
 
 class UserViewSet(viewsets.ModelViewSet):

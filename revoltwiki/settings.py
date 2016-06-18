@@ -38,7 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'wiki.apps.WikiConfig',
+    'data_models.apps.ModelsConfig',
+    'api_graphql.apps.GraphqlApiConfig',
+    'api_rest.apps.RestApiConfig',
+    'frontend_django.apps.DjangoFrontendConfig',
+
     'rest_framework',
     'django_graphiql',
     'graphene.contrib.django',
@@ -124,6 +128,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+# REST Framework settings
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAuthenticatedOrReadOnly',),

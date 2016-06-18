@@ -9,7 +9,7 @@ def get_sentinel_user():
 
 
 class Category(models.Model):
-    title = models.CharField(max_length=128)
+    title = models.CharField(max_length=128, unique=True)
 
     def slug(self):
         return slugify(self.title, allow_unicode=True)
@@ -37,7 +37,7 @@ class ArticleVersion(models.Model):
 
 
 class Article(models.Model):
-    title = models.CharField(max_length=128)
+    title = models.CharField(max_length=128, unique=True)
     category = models.ForeignKey(Category, on_delete=models.PROTECT, related_name='articles',
                                  related_query_name='article')
     current_version = models.ForeignKey(ArticleVersion, blank=True, null=True, default=None)
