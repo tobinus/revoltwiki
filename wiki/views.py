@@ -1,8 +1,7 @@
-from django.shortcuts import render
 from django.contrib.auth.models import User
 from rest_framework import viewsets
-from .serializers import UserSerializer, ArticleSerializer, ContentSerializer, CategorySerializer
-from .models import Article, Content, Category
+from .serializers import UserSerializer, ArticleSerializer, ArticleVersionSerializer, CategorySerializer
+from .models import Article, ArticleVersion, Category
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -21,12 +20,12 @@ class ArticleViewSet(viewsets.ModelViewSet):
     serializer_class = ArticleSerializer
 
 
-class ContentViewSet(viewsets.ModelViewSet):
+class ArticleVersionViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
     """
-    queryset = Content.objects.all().order_by('-created_at')
-    serializer_class = ContentSerializer
+    queryset = ArticleVersion.objects.all().order_by('-created_at')
+    serializer_class = ArticleVersionSerializer
 
 
 class CategoryViewSet(viewsets.ModelViewSet):

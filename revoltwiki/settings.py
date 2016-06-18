@@ -40,6 +40,8 @@ INSTALLED_APPS = [
 
     'wiki.apps.WikiConfig',
     'rest_framework',
+    'django_graphiql',
+    'graphene.contrib.django',
 ]
 
 MIDDLEWARE_CLASSES = [
