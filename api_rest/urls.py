@@ -2,10 +2,10 @@ from django.conf.urls import url, include
 
 from rest_framework import routers
 
-from .views import UserViewSet, CategoryViewSet, ArticleViewSet, ArticleVersionViewSet
+from .views import MemberViewSet, CategoryViewSet, ArticleViewSet, ArticleVersionViewSet
 
 rest_router = routers.DefaultRouter()
-rest_router.register(r'users', UserViewSet)
+rest_router.register(r'members', MemberViewSet)
 rest_router.register(r'articles', ArticleViewSet)
 rest_router.register(r'article_versions', ArticleVersionViewSet)
 rest_router.register(r'categories', CategoryViewSet)

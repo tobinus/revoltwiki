@@ -19,12 +19,13 @@ class ArticleType(graphene.ObjectType):
     deleted = graphene.Boolean()
     created_at = graphene.String()
     updated_at = graphene.String()
-    created_by = graphene.Field('UserType')
+    access = graphene.Int()
+    created_by = graphene.Field('MemberType')
     category = graphene.Field('CategoryType')
-    last_edited_by = graphene.Field('UserType')
+    last_edited_by = graphene.Field('MemberType')
     versions = graphene.List('ArticleVersionType')
-    current_version = graphene.Field('UserType')
-    authors = graphene.List('UserType')
+    current_version = graphene.Field('MemberType')
+    authors = graphene.List('MemberType')
 
     @staticmethod
     def resolve_created_by(article, args, info):
@@ -63,9 +64,14 @@ class ArticleVersionType(graphene.ObjectType):
 
     id = graphene.Int()
     content = graphene.String()
+    access = graphene.Int()
     created_at = graphene.String()
-    created_by = graphene.Field('UserType')
+    created_by = graphene.Field('MemberType')
     parent_article = graphene.Field('ArticleType')
+
+    @staticmethod
+    def resolve_access(article_version, args, info):
+        return article_version.access()
 
     @staticmethod
     def resolve_created_by(article_version, args, info):
@@ -96,25 +102,41 @@ class CategoryType(graphene.ObjectType):
         return category.slug()
 
 
-class UserType(graphene.ObjectType):
+class MemberType(graphene.ObjectType):
     """
-    User description
+    Member description
     """
-    name = 'User'
+    name = 'Member'
 
     id = graphene.Int()
     username = graphene.String()
     email = graphene.String()
+    first_name = graphene.String()
+    last_name = graphene.String()
+    date_joined = graphene.String()
+    is_staff = graphene.Boolean()
+    is_active = graphene.Boolean()
+    full_name = graphene.String()
+    short_name = graphene.String()
+
     contributions_by_version = graphene.List(ArticleVersionType)
     contributions_by_article = graphene.List(ArticleType)
 
     @staticmethod
-    def resolve_contributions_by_article(user, args, info):
-        return list(set([version.parent_article for version in user.contributions.all()]))
+    def resolve_full_name(member, args, info):
+        return member.get_full_name()
 
     @staticmethod
-    def resolve_contributions_by_version(user, args, info):
-        return user.contributions.all()
+    def resolve_short_name(member, args, info):
+        return member.get_short_name()
+
+    @staticmethod
+    def resolve_contributions_by_article(member, args, info):
+        return member.contributions_by_article()
+
+    @staticmethod
+    def resolve_contributions_by_version(member, args, info):
+        return member.contributions_by_version()
 
 
 # Query
@@ -152,13 +174,13 @@ class Query(graphene.ObjectType):
         ArticleVersionType
     )
 
-    user = graphene.Field(
-        UserType,
+    member = graphene.Field(
+        MemberType,
         id=graphene.Int()
     )
 
-    all_users = graphene.List(
-        UserType
+    all_members = graphene.List(
+        MemberType
     )
 
     @staticmethod
@@ -234,7 +256,7 @@ class CreateUser(graphene.Mutation):
 
     ok = graphene.Boolean()
     message = graphene.String()
-    user = graphene.Field('UserType')
+    user = graphene.Field('MemberType')
 
     @classmethod
     def mutate(cls, instance, args, info):
