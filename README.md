@@ -4,12 +4,12 @@
 
 ## Oppsett
 
-Klon repoet, f.eks.: `git clone git@github.com:RadioRevolt/revoltwiki.git`
-Sett opp virituelt miljø med python3, f.eks.: `mkvirtualenv -p python3 revoltwiki`
-Bruk det virituelle miljøet, f.eks.: `workon revoltwiki`
-Installer avhengighetene: `pip install -r requirements.txt`
-Kjør migrasjonene for å opprette databasen: `python manage.py migrate`
-Last inn testdata: `python manage.py loaddata dummy_data.json`
+* Klon repoet, f.eks.: `git clone git@github.com:RadioRevolt/revoltwiki.git`
+* Sett opp virituelt miljø med python3, f.eks.: `mkvirtualenv -p python3 revoltwiki`
+* Bruk det virituelle miljøet, f.eks.: `workon revoltwiki`
+* Installer avhengighetene: `pip install -r requirements.txt`
+* Kjør migrasjonene for å opprette databasen: `python manage.py migrate`
+* Last inn testdata: `python manage.py loaddata dummy_data.json`
 
 Om du vil ha en superbruker du kan logge inn på: `python manage.py createsuperuser`
 
