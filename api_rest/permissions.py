@@ -77,7 +77,7 @@ class ArticlePermissions(BasePermission):
 
     def has_permission(self, request, view):
         """
-        Permissions to list view, update and creation
+        Permissions to list view and creation
         """
 
         # Everyone can view
@@ -96,25 +96,12 @@ class ArticlePermissions(BasePermission):
         if type(obj) is not Article:
             raise TypeError('Expected Article type, but got {type}'.format(type=type(obj)))
 
-        # Handle anonymous users
-        if not request.user.is_authenticated():
-            # Only view articles with access set to ALL
-            return request.method in SAFE_METHODS and obj.access == Article.ACCESS.ALL
-
-        # Access ALL
-        if obj.access == Article.ACCESS.ALL:
+        # Everyone can view
+        if request.method in SAFE_METHODS:
             return True
 
-        # Access STAFF
-        if obj.access & Article.ACCESS.STAFF and request.user.is_staff:
-            return True
-
-        # Access SUPERUSER
-        if obj.access & Article.ACCESS.SUPERUSER and request.user.is_staff:
-            return True
-
-        # Fail switch (superusers should always be granted everything)
-        return request.user.is_superuser
+        # Only authenticated users can update
+        return request.user.is_authenticated()
 
 
 class ArticleVersionPermissions(BasePermission):
@@ -143,21 +130,9 @@ class ArticleVersionPermissions(BasePermission):
         if type(obj) is not ArticleVersion:
             raise TypeError('Expected ArticleVersion type, but got {type}'.format(type=type(obj)))
 
-        # Handling anonymous users
-        if not request.user.is_authenticated():
-            # Only view article versions with access set to ALL
-            return request.method in SAFE_METHODS and obj.access() == Article.ACCESS.ALL
-
-        # Access ALL
-        if obj.access() == Article.ACCESS.ALL:
+        # Everyone can view
+        if request.method in SAFE_METHODS:
             return True
 
-        # Access STAFF
-        if obj.access() & Article.ACCESS.STAFF and request.user.is_staff:
-            return True
-        # Access SUPERUSER
-        if obj.access() & Article.ACCESS.SUPERUSER and request.user.is_superuser:
-            return True
-
-        # Fail switch (superusers should always be granted everything)
-        return request.user.is_superuser
+        # No one can do anything else
+        return False

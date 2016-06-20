@@ -1,7 +1,8 @@
+from django.db.models import Q
+
 from rest_framework import viewsets, mixins, status
 from rest_framework.viewsets import GenericViewSet
 from rest_framework.serializers import ValidationError
-from django.core.exceptions import FieldError
 
 from data_models.models import Article, ArticleVersion, Category, Member
 
@@ -30,9 +31,9 @@ class ArticleViewSet(mixins.CreateModelMixin,
     """
     API endpoint that allows articles to be viewed, created or edited.
     """
-    queryset = Article.objects.all().order_by('-updated_at')
     serializer_class = ArticleSerializer
     permission_classes = [ArticlePermissions]
+    queryset = Article.objects.all().order_by('-updated_at')
 
     # Sets 'created_by' to the current user and that the 'current_version' is null
     def perform_create(self, serializer):
@@ -44,6 +45,22 @@ class ArticleViewSet(mixins.CreateModelMixin,
             serializer.save()
         except AttributeError as error:
             raise ValidationError({'current_version': [str(error)]})
+
+    def get_queryset(self):
+        if self.request.user.is_authenticated():
+
+            # Superusers
+            if self.request.user.is_superuser:
+                return Article.objects.all().order_by('-updated_at')
+
+            # Staff
+            if self.request.user.is_superuser:
+                return Article.objects.get(
+                    Q(access=Article.ACCESS.ALL) |
+                    Q(access=Article.ACCESS.STAFF)
+                ).order_by('-updated_at')
+
+        return Article.objects.filter(access=Article.ACCESS.ALL).order_by('-updated_at')
 
 
 class ArticleVersionViewSet(mixins.CreateModelMixin,
@@ -61,6 +78,22 @@ class ArticleVersionViewSet(mixins.CreateModelMixin,
     # Sets 'created_by' to the current user and that the 'current_version' is null
     def perform_create(self, serializer):
         serializer.save(created_by=self.request.user)
+
+    def get_queryset(self):
+        if self.request.user.is_authenticated():
+
+            # Superusers
+            if self.request.user.is_superuser:
+                return ArticleVersion.objects.all().order_by('-created_at')
+
+            # Staff
+            if self.request.user.is_superuser:
+                return ArticleVersion.objects.get(
+                    Q(parent_article__access=Article.ACCESS.ALL) |
+                    Q(parent_article__access=Article.ACCESS.STAFF)
+                ).order_by('-created_at')
+
+        return ArticleVersion.objects.filter(parent_article__access=Article.ACCESS.ALL).order_by('-created_at')
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
