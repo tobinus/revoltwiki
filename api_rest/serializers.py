@@ -4,10 +4,12 @@ from data_models.models import Article, ArticleVersion, Category, Member
 
 
 class ArticleVersionSerializer(serializers.HyperlinkedModelSerializer):
+    diff = serializers.JSONField()
+
     class Meta:
         model = ArticleVersion
-        fields = ('id', 'url', 'content', 'access', 'parent_article', 'created_at', 'created_by')
-        read_only_fields = ('id', 'url', 'access', 'created_at', 'created_by')
+        fields = ('id', 'url', 'content', 'access', 'parent_article', 'created_at', 'created_by', 'diff')
+        read_only_fields = ('id', 'url', 'access', 'created_at', 'created_by', 'diff')
 
 
 class MemberSerializer(serializers.HyperlinkedModelSerializer):

@@ -7,6 +7,8 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.text import slugify
 from django.core.exceptions import FieldError
 
+from diff_match_patch import diff_match_patch
+
 
 class MemberManager(BaseUserManager):
     def _create_user(self, username, email, password, is_staff, is_superuser, **extra_fields):
@@ -101,6 +103,22 @@ class ArticleVersion(models.Model):
     def access(self):
         return self.parent_article.access
 
+    def diff(self):
+        try:
+            previous_article_version = ArticleVersion.objects.filter(created_at__lt=self.created_at).order_by('-created_at')[0]
+            diff = diff_match_patch()
+            d = diff.diff_main(previous_article_version.content, self.content)
+            diff.diff_cleanupSemantic(d)
+            return [{'type': t, 'text': txt} for (t, txt) in d]
+        except IndexError:
+            return [{'type': 1, 'text': self.content}]
+
+    # Sets the new article version as the current version of the parent article
+    def save(self, *args, **kwargs):
+        super(ArticleVersion, self).save(*args, **kwargs)
+        self.parent_article.current_version = self
+        self.parent_article.save()
+
     def __unicode__(self):
         return 'Versjon: {id}'.format(id=self.id)
 
@@ -151,7 +169,7 @@ class Article(models.Model):
     # Ensure that a article never has a 'current_version' that does not belong to that article
     def save(self, *args, **kwargs):
         if self.current_version:
-            if self.pk != self.current_version.pk:
+            if self.pk != self.current_version.parent_article.pk:
                 raise AttributeError(_('Cannot only assign versions that belongs to this article as current_version'))
         super(Article, self).save(*args, **kwargs)
 
