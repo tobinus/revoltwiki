@@ -1,4 +1,4 @@
-[![Stories in Ready](https://badge.waffle.io/RadioRevolt/revoltwiki.png?label=ready&title=Ready)](https://waffle.io/RadioRevolt/revoltwiki) [![Build Status](https://travis-ci.org/RadioRevolt/revoltwiki.svg?branch=develop)](https://travis-ci.org/RadioRevolt/revoltwiki)
+[![Stories in Ready](https://badge.waffle.io/RadioRevolt/revoltwiki.png?label=ready&title=Ready)](https://waffle.io/RadioRevolt/revoltwiki) [![Build Status](https://travis-ci.org/RadioRevolt/revoltwiki.svg?branch=develop)](https://travis-ci.org/RadioRevolt/revoltwiki) [![Coverage Status](https://coveralls.io/repos/github/RadioRevolt/revoltwiki/badge.svg?branch=develop)](https://coveralls.io/github/RadioRevolt/revoltwiki?branch=develop)
 
 # revoltwiki 
 
