@@ -104,3 +104,33 @@ class MemberTestCase(TestCase):
                              [self.rollingstone, self.caucasian])
         self.assertListEqual(self.linus.contributions_by_article(),
                              [self.kernelpatching])
+
+
+class CategoryTestCase(TestCase):
+    def setUp(self):
+        self.cocktails = Category.objects.create(title='Cocktails')
+
+        self.thedude = Member.objects.create(username='thedude',
+                                             email='the_dude@outlook.com',
+                                             password='whiterussian',
+                                             first_name='The',
+                                             last_name='Dude',
+                                             is_staff=False,
+                                             is_active=True)
+
+        self.caucasian = Article.objects.create(
+            title='How to make an exquisite Caucasian',
+            created_by=self.thedude,
+            category=self.cocktails)
+
+    def test_slug(self):
+        """A category shuld have a slug that is a URL friendly version of the name"""
+
+        self.assertEqual(self.cocktails.slug(), 'cocktails')
+
+    def test_articles(self):
+        """A category should contain all articles that uses it"""
+
+        self.assertSequenceEqual(self.cocktails.articles.all(), [self.caucasian])
+
+
