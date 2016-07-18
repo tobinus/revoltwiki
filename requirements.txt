@@ -1,3 +1,4 @@
+coverage==4.1
 diff-match-patch==20121119
 Django==1.9.7
 django-filter==0.13.0
