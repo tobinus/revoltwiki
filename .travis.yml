@@ -9,7 +9,7 @@ install:
 
 # command to run tests
 script:
-- coverage run --source=api_graphql,api_rest,data_models,frontend_django manage.py test
+- coverage run --source=api_graphql,api_rest,data_models,frontend_django --omit="data_models/migrations/*","*/tests.py" manage.py test
 
 after_success:
 - coveralls
