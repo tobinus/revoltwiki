@@ -21,8 +21,7 @@ ENV REVOLTWIKI_SRVPROJ=/srv/revoltwiki
 # Install the needed packages
 RUN apt-get update && apt-get install -y \
 	python3.5 \
-	python3-pip \
-	nginx
+	python3-pip
 
 # Copy in the requirements.txt file separately, so the image can be cached
 COPY $REVOLTWIKI_SRC/requirements.txt $REVOLTWIKI_SRVPROJ/
