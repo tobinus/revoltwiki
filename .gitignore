@@ -93,3 +93,7 @@ ENV/
 
 # Database
 *.sqlite3
+
+# Files left by vim
+*.swp
+
