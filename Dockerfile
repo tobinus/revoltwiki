@@ -4,7 +4,7 @@
 ############################################
 
 # Set the base image to use to Ubuntu
-FROM ubuntu:16.04
+FROM debian:stable
 
 # Set the file maintainer (your name - the file's author)
 MAINTAINER Radio Revolt/Thorben Dahl
@@ -20,7 +20,7 @@ ENV REVOLTWIKI_SRVPROJ=/srv/revoltwiki
 
 # Install the needed packages
 RUN apt-get update && apt-get install -y \
-	python3.5 \
+	python3 \
 	python3-pip
 
 # Copy in the requirements.txt file separately, so the image can be cached
