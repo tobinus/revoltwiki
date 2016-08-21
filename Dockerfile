@@ -36,11 +36,15 @@ COPY $REVOLTWIKI_SRC $REVOLTWIKI_SRVPROJ
 # Port to expose
 EXPOSE 8000
 
-# TODO: Add volumes, store sqlite3-file on volume (or else it won't persist!)
+# Initialize the database file and load testdata
+RUN make -C $REVOLTWIKI_SRVPROJ prepare testdata
+
+# Make a volume out of the data directory, in which the database is stored
+VOLUME ["$REVOLTWIKI_SRVPROJ/data"]
 
 # Default command to execute.
 # By using CMD without ENTRYPOINT, it is possible for users to
 # start up a shell to do debugging, manual changes and so on.
 # The path to the installation folder is duplicated because variables are not
 # supported by the exec form of CMD.
-CMD ["/usr/bin/make","-C","/srv/revoltwiki","prepare","testdata","run"]
+CMD ["/usr/bin/make","-C","/srv/revoltwiki","prepare","run"]
