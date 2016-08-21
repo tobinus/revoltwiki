@@ -19,7 +19,7 @@ Om du vil ha en superbruker du kan logge inn på: `python manage.py createsuperu
 2. Kjør `docker build -t brukernavn/revoltwiki .`
 3. Lag en ny container ut av Docker-imaget og start den ved å kjøre f. eks.:
 
-   `docker run -d --publish 8000:8000 brukernavn/revoltwiki:latest
+   `docker run -d --publish 8000:8000 brukernavn/revoltwiki:latest`
 
 4. Hver container har sin egen database; derfor må vi vite hvordan vi skal
    referere til containeren vi lagde i steg 3. Kjør:
@@ -46,7 +46,7 @@ Om du vil ha en superbruker du kan logge inn på: `python manage.py createsuperu
 
 ### Kjøring
 
-Det er laget en Makefile for å forenkle kjøring, så du slipper å huske
+Det er laget en Makefile for å forenkle vanlig (ikke-Docker) kjøring, så du slipper å huske
 alle kommandoene ovenfor. Du bruker den med hjelp av `make`-kommandoen.
 
 Kjør `make help` når du er i prosjektmappa for en oppsummering av tilgjengelige kommandoer.
