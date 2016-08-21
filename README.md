@@ -13,6 +13,15 @@
 
 Om du vil ha en superbruker du kan logge inn på: `python manage.py createsuperuser`
 
+### Kjøring
+
+Det er laget en Makefile for å forenkle kjøring, så du slipper å huske
+alle kommandoene ovenfor. Du bruker den med hjelp av `make`-kommandoen.
+
+Kjør `make help` når du er i prosjektmappa for en oppsummering av tilgjengelige kommandoer.
+For eksempel kan du bruke `make run` for å kjøre Django sin utviklingsserver.
+
+
 ## Arbeidsflyt
 
 Alt av commits og issues (samt kommentarer på issues) skal være på norsk. All kode skal være på engelsk.
