@@ -13,6 +13,22 @@
 
 Om du vil ha en superbruker du kan logge inn på: `python manage.py createsuperuser`
 
+### Bruke Docker
+
+1. Klon repoet som ovenfor, og gå inn i mappen (`cd revoltwiki`)
+2. Kjør `docker build -t brukernavn/revoltwiki .`
+3. For å få et shell fra denne containeren, kjør
+
+   `docker run -it brukernavn/revoltwiki:latest /bin/bash`
+
+Om du vil ha superbruker, må du åpne opp shell i containeren og
+følge samme prosedyre som for vanlig oppsett. Husk at databasen
+slettes når containeren avsluttes, inkludert superbrukeren du lager.
+
+For å kjøre opp en testserver med testdata, kjører du:  
+`docker run -d brukernavn/revoltwiki:latest`  
+men det er enda ikke lagt inn støtte for volumer, så du vil miste databasen når containeren avsluttes.
+
 ### Kjøring
 
 Det er laget en Makefile for å forenkle kjøring, så du slipper å huske
